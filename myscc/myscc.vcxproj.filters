@@ -30,6 +30,9 @@
     <ClCompile Include="error.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="grammar.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scc.h">

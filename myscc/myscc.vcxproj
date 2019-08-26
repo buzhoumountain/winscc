@@ -22,6 +22,7 @@
     <ClCompile Include="dynarray.c" />
     <ClCompile Include="dynstring.c" />
     <ClCompile Include="error.c" />
+    <ClCompile Include="grammar.c" />
     <ClCompile Include="lex.c" />
     <ClCompile Include="scc.c" />
   </ItemGroup>
