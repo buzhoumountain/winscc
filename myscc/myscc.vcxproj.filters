@@ -33,6 +33,15 @@
     <ClCompile Include="grammar.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="grammar_test.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="symbol.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stack.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scc.h">

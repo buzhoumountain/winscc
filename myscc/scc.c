@@ -74,6 +74,14 @@ char *get_file_ext(char *fname)
 	p = strrchr(fname, '.');
 	return p + 1;
 }
+/***********************************************************
+*
+************************************************************/
+void testGrammar()
+{
+    get_token();
+    translation_unit();
+}
 
 /***********************************************************
  * 功能:	main主函数
@@ -83,19 +91,23 @@ int main(int argc, char ** argv)
 	(void)argc;
 	printf("arg0 = %s\n", argv[0]);
 	printf("arg1 = %s\n", argv[1]);
-	fopen_s(&fin, argv[1], "rb");
-	if (!fin)
-	{
-		printf("不能打开SC源文件!\n");
-		return 0;
-	}
-	init();
-	getch();
-	test_lex();
-	cleanup();
-	fclose(fin);
 	printf("%s 词法分析成功!\n", argv[1]);
-	
-	//getchar();
+    fopen_s(&fin, argv[1], "rb");
+    if (!fin)
+    {
+        printf("不能打开SC源文件!\n");
+        return 0;
+    }
+    init();
+    getch();
+    //testLex(argv);
+    testGrammar(argv);
+    cleanup();
+    fclose(fin);
 	return 1;
+}
+
+void testLex(char ** argv)
+{
+    test_lex();
 }

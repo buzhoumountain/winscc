@@ -41,6 +41,12 @@ void translation_unit()
  *	    |<declarator>[<TK_ASSIGN><initializer>]
  *	     {<TK_COMMA> <declarator>[<TK_ASSIGN><initializer>]}
  *		 <TK_SEMICOLON>
+
+ <type_specifier>::=<KW_INT>
+        |<KW_CHAR>
+        |<KW_SHORT>
+        |<KW_VOID>
+        |<>
  **********************************************************/
 void external_declaration(int l)
 {

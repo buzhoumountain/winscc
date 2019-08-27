@@ -151,6 +151,59 @@ void link_error(char *fmt, ...);
 /*****************************error.h end*************************************/
 
 
+/*******************************stack.h begin****************************/
+/*栈定义*/
+typedef struct Stack
+{
+    void **base;	// 栈底指针
+    void **top;		// 栈顶指针
+    int stacksize;	// 栈当前可使用的最大容量,以元素为单位	
+} Stack;
+
+void stack_init(Stack *stack, int initsize);
+void* stack_push(Stack *stack, void *element, int size);
+void stack_pop(Stack *stack);
+void* stack_get_top(Stack *stack);
+int stack_is_empty(Stack *stack);
+void stack_destroy(Stack *stack);
+/*******************************stack.h begin****************************/
+
+/*******************************symbol.h begin****************************/
+/* 类型存储结构定义 */
+typedef struct Type
+{
+    int t;
+    struct Symbol *ref;
+} Type;
+
+/* 符号存储结构定义 */
+typedef struct Symbol
+{
+    int v;						// 符号的单词编码
+    int r;						// 符号关联的寄存器
+    int c;						// 符号关联值
+    Type type;					// 符号类型
+    struct Symbol *next;		// 关联的其它符号，结构体定义关联成员变量符号，函数定义关联参数符号
+    struct Symbol *prev_tok;	// 指向前一定义的同名符号
+} Symbol;
+
+extern Type char_pointer_type, int_type, default_func_type;
+extern Symbol *sym_sec_rdata;
+Symbol *struct_search(int v);
+Symbol *sym_search(int v);
+Symbol *sym_direct_push(Stack *ss, int v, Type *type, int c);
+Symbol *sym_push(int v, Type *type, int r, int c);
+void sym_pop(Stack *ptop, Symbol *b);
+void mk_pointer(Type *type);
+extern Stack global_sym_stack, local_sym_stack;
+Symbol *func_sym_push(int v, Type *type);
+Symbol *sec_sym_put(char *sec, int c);
+Symbol *var_sym_put(Type *type, int r, int v, int addr);
+void check_lvalue();
+int type_size(Type *type, int *a);
+/*******************************symbol.h end****************************/
+
+
 /*******************************grammar.h begin****************************/
 /* 语法状态 */
 enum e_SynTaxState
