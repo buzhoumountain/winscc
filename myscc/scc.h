@@ -1,6 +1,7 @@
 // 《自己动手写编译器、链接器》配套源代码
 
 #include <stdio.h>
+#include <windows.h>
 
 /*******************************dynstring.h begin****************************/
 /* 动态字符串定义 */
@@ -301,3 +302,109 @@ extern int line_num;
 int elf_hash(char *name);
 void *mallocz(int size);
 /******************************scc.h end*************************/
+
+/*******************************outcoff.h begin****************************/
+typedef unsigned long       DWORD;
+typedef int                 BOOL;
+typedef unsigned char       BYTE;
+typedef unsigned short      WORD;
+
+#pragma pack(push, 1)
+/* 节结构定义 */
+typedef struct Section
+{
+    int data_offset;			// 当前数据偏移位置
+    char *data;					// 节数据
+    int data_allocated;			// 分配内存空间
+    char  index;				// 节序号
+    struct Section *link;       // 关联的其它节
+    int *hashtab;				// 哈希表，只用于存储符号表
+    IMAGE_SECTION_HEADER sh;    // 节头
+} Section;
+
+/* 符号表记录
+原定义
+// Symbol format.
+//
+
+typedef struct _IMAGE_SYMBOL {
+    union {
+        BYTE    ShortName[8];
+        struct {
+            DWORD   Short;     // if 0, use LongName
+            DWORD   Long;      // offset into string table
+        } Name;
+        PBYTE   LongName[2];
+    } N;
+    DWORD   Value;
+    SHORT   SectionNumber;
+    WORD    Type;
+    BYTE    StorageClass;
+    BYTE    NumberOfAuxSymbols;
+} IMAGE_SYMBOL;
+*/
+/* 修正内容：Name 符号名称原来为8个字节长数组*/
+/* COFF符号结构定义 */
+typedef struct CoffSym
+{
+
+    DWORD Name;					// 符号名称
+    DWORD Next;					// 用于保存冲突链表*/
+    /*
+    struct {
+        DWORD   Short;			// if 0, use LongName
+        DWORD   Long;			// offset into string table
+    } name;
+    */
+    DWORD   Value;				// 与符号相关的值
+    short   Section;			// 节表的索引(从1开始),用以标识定义此符号的节*/
+    WORD    Type;				// 一个表示类型的数字
+    BYTE    StorageClass;		// 这是一个表示存储类别的枚举类型值
+    BYTE    NumberOfAuxSymbols;	// 跟在本记录后面的辅助符号表项的个数
+} CoffSym;
+
+#define CST_FUNC    0x20  //Coff符号类型，函数
+#define CST_NOTFUNC 0     //Coff符号类型，非函数
+
+/* COFF重定位记录
+原定义:
+//
+// Relocation format.
+//
+
+typedef struct _IMAGE_RELOCATION {
+    union {
+        DWORD   VirtualAddress;
+        DWORD   RelocCount;             // Set to the real count when IMAGE_SCN_LNK_NRELOC_OVFL is set
+    };
+    DWORD   SymbolTableIndex;
+    WORD    Type;
+} IMAGE_RELOCATION;
+*/
+/* 重定位结构定义 */
+typedef struct CoffReloc
+{
+    DWORD offset;	// 需要进行重定位的代码或数据的地址
+    DWORD cfsym;				// 符号表的索引(从0开始)
+    BYTE  section;  // 此处讲一下为什么对COFF重定位结构进行修改记录Section信息*/
+    BYTE  type;
+} CoffReloc;
+
+#pragma pack(pop)
+
+extern Section *sec_text, *sec_data, *sec_bss, *sec_idata, *sec_rdata, *sec_rel, *sec_symtab, *sec_dynsymtab;
+extern DynArray sections;
+extern int nsec_image;
+void init_coff();
+void section_realloc(Section *sec, int new_size);
+void *section_ptr_add(Section *sec, int size);
+void coffsym_add_update(Symbol *s, int val, int sec_index, short type, char StorageClass);
+void coffreloc_add(Section *sec, Symbol *sym, int offset, char type);
+void fpad(FILE *fp, int new_pos);
+void free_sections();
+void coffreloc_direct_add(int offset, int cfsym, char section, char type);
+int coffsym_add(Section *symtab, char* name, int val, int sec_index,
+    short type, char StorageClass);
+int coffsym_search(Section *symtab, char *name);
+void write_obj(char *name);
+/*******************************outcoff.h end****************************/

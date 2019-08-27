@@ -25,6 +25,7 @@
     <ClCompile Include="grammar.c" />
     <ClCompile Include="grammar_test.c" />
     <ClCompile Include="lex.c" />
+    <ClCompile Include="outcoff.c" />
     <ClCompile Include="scc.c" />
     <ClCompile Include="stack.c" />
     <ClCompile Include="symbol.c" />

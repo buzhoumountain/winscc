@@ -89,6 +89,8 @@ void testGrammar()
 int main(int argc, char ** argv)
 {
 	(void)argc;
+    byte myname[8];
+    printf("size = %d", sizeof(myname));
 	printf("arg0 = %s\n", argv[0]);
 	printf("arg1 = %s\n", argv[1]);
 	printf("%s 词法分析成功!\n", argv[1]);
