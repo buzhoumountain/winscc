@@ -4,12 +4,12 @@
 #include <windows.h>
 
 /*******************************dynstring.h begin****************************/
-/* 动态字符串定义 */
+/*动态字符串定义*/
 typedef struct DynString
 {
-	int		count;		// 字符串长度  
-	int		capacity;	// 包含该字符串的缓冲区长度
-	char	*data;		// 指向字符串的指针
+    int count;		// 字符串长度  
+    int capacity;	// 包含该字符串的缓冲区长度
+    char *data;		// 指向字符串的指针
 } DynString;
 
 void dynstring_realloc(DynString *cstr, int new_size);
@@ -21,9 +21,9 @@ void dynstring_reset(DynString *cstr);
 /*动态数组定义*/
 typedef struct DynArray
 {
-	int count;			// 动态数组元素个数
-	int capacity;		// 动态数组缓冲区长度度
-	void **data;		// 指向数据指针数组
+    int count;			// 动态数组元素个数
+    int capacity;		// 动态数组缓冲区长度度
+    void **data;		// 指向数据指针数组
 } DynArray;
 
 void dynarray_add(DynArray *parr, void *data);
@@ -36,75 +36,75 @@ int dynarray_search(DynArray *parr, int key);
 /* 单词编码 */
 enum e_TokenCode
 {
-	/* 运算符及分隔符 */
-	TK_PLUS,		// + 加号
-	TK_MINUS,		// - 减号
-	TK_STAR,		// * 星号
-	TK_DIVIDE,		// / 除号
-	TK_MOD,			// % 求余运算符
-	TK_EQ,			// == 等于号
-	TK_NEQ,			// != 不等于号
-	TK_LT,			// < 小于号
-	TK_LEQ,			// <= 小于等于号
-	TK_GT,			// > 大于号
-	TK_GEQ,			// >= 大于等于号
-	TK_ASSIGN,		// = 赋值运算符 
-	TK_POINTSTO,	// -> 指向结构体成员运算符
-	TK_DOT,			// . 结构体成员运算符
-	TK_AND,         // & 地址与运算符
-	TK_OPENPA,		// ( 左圆括号
-	TK_CLOSEPA,		// ) 右圆括号
-	TK_OPENBR,		// [ 左中括号
-	TK_CLOSEBR,		// ] 右圆括号
-	TK_BEGIN,		// { 左大括号
-	TK_END,			// } 右大括号
-	TK_SEMICOLON,	// ; 分号    
-	TK_COMMA,		// , 逗号
-	TK_ELLIPSIS,	// ... 省略号
-	TK_EOF,			// 文件结束符
+    /* 运算符及分隔符 */
+    TK_PLUS,		// + 加号
+    TK_MINUS,		// - 减号
+    TK_STAR,		// * 星号
+    TK_DIVIDE,		// / 除号
+    TK_MOD,			// % 求余运算符
+    TK_EQ,			// == 等于号
+    TK_NEQ,			// != 不等于号
+    TK_LT,			// < 小于号
+    TK_LEQ,			// <= 小于等于号
+    TK_GT,			// > 大于号
+    TK_GEQ,			// >= 大于等于号
+    TK_ASSIGN,		// = 赋值运算符 
+    TK_POINTSTO,	// -> 指向结构体成员运算符
+    TK_DOT,			// . 结构体成员运算符
+    TK_AND,         // & 地址与运算符
+    TK_OPENPA,		// ( 左圆括号
+    TK_CLOSEPA,		// ) 右圆括号
+    TK_OPENBR,		// [ 左中括号
+    TK_CLOSEBR,		// ] 右圆括号
+    TK_BEGIN,		// { 左大括号
+    TK_END,			// } 右大括号
+    TK_SEMICOLON,	// ; 分号    
+    TK_COMMA,		// , 逗号
+    TK_ELLIPSIS,	// ... 省略号
+    TK_EOF,			// 文件结束符
 
-	/* 常量 */
-	TK_CINT,		// 整型常量
-	TK_CCHAR,		// 字符常量
-	TK_CSTR,		// 字符串常量
+    /* 常量 */
+    TK_CINT,		// 整型常量
+    TK_CCHAR,		// 字符常量
+    TK_CSTR,		// 字符串常量
 
-	/* 关键字 */
-	KW_CHAR,		// char关键字
-	KW_SHORT,		// short关键字
-	KW_INT,			// int关键字
-	KW_VOID,		// void关键字  
-	KW_STRUCT,		// struct关键字   
-	KW_IF,			// if关键字
-	KW_ELSE,		// else关键字
-	KW_FOR,			// for关键字
-	KW_CONTINUE,	// continue关键字
-	KW_BREAK,		// break关键字   
-	KW_RETURN,		// return关键字
-	KW_SIZEOF,		// sizeof关键字
+    /* 关键字 */
+    KW_CHAR,		// char关键字
+    KW_SHORT,		// short关键字
+    KW_INT,			// int关键字
+    KW_VOID,		// void关键字 
+    KW_STRUCT,		// struct关键字   
+    KW_IF,			// if关键字
+    KW_ELSE,		// else关键字
+    KW_FOR,			// for关键字
+    KW_CONTINUE,	// continue关键字
+    KW_BREAK,		// break关键字   
+    KW_RETURN,		// return关键字
+    KW_SIZEOF,		// sizeof关键字
 
-	KW_ALIGN,		// __align关键字	
-	KW_CDECL,		// __cdecl关键字 standard c call
-	KW_STDCALL,     // __stdcall关键字 pascal c call
+    KW_ALIGN,		// __align关键字	
+    KW_CDECL,		// __cdecl关键字 standard c call
+    KW_STDCALL,     // __stdcall关键字 pascal c call
 
-	/* 标识符 */
-	TK_IDENT
+    /* 标识符 */
+    TK_IDENT
 };
 
 /* 词法状态 */
 enum e_LexState
 {
-	LEX_NORMAL,
-	LEX_SEP
+    LEX_NORMAL,
+    LEX_SEP
 };
 
 /* 单词存储结构定义 */
 typedef struct TkWord
 {
-	int  tkcode;					// 单词编码 
-	struct TkWord *next;			// 指向哈希冲突的其它单词
-	char *spelling;					// 单词字符串
-	struct Symbol *sym_struct;		// 指向单词所表示的结构定义
-	struct Symbol *sym_identifier;	// 指向单词所表示的标识符
+    int  tkcode;					// 单词编码 
+    struct TkWord *next;			// 指向哈希冲突的其它单词
+    char *spelling;					// 单词字符串 
+    struct Symbol *sym_struct;		// 指向单词所表示的结构定义
+    struct Symbol *sym_identifier;	// 指向单词所表示的标识符
 } TkWord;
 
 #define MAXKEY	1024				// 哈希表容量
@@ -134,15 +134,15 @@ void color_token(int lex_state);
 /* 错误级别 */
 enum e_ErrorLevel
 {
-	LEVEL_WARNING,
-	LEVEL_ERROR,
+    LEVEL_WARNING,
+    LEVEL_ERROR,
 };
 
 /* 工作阶段 */
 enum e_WorkStage
 {
-	STAGE_COMPILE,
-	STAGE_LINK,
+    STAGE_COMPILE,
+    STAGE_LINK,
 };
 void warning(char *fmt, ...);
 void error(char *fmt, ...);
@@ -209,42 +209,43 @@ int type_size(Type *type, int *a);
 /* 语法状态 */
 enum e_SynTaxState
 {
-	SNTX_NUL,       // 空状态，没有语法缩进动作
-	SNTX_SP,		// 空格 int a; int __stdcall MessageBoxA(); return 1;
-	SNTX_LF_HT,		// 换行并缩进，每一个声明、函数定义、语句结束都要置为此状态
-	SNTX_DELAY      // 延迟取出下一单词后确定输出格式，取出下一个单词后，根据单词类型单独调用syntax_indent确定格式进行输出 
+    SNTX_NUL,       // 空状态，没有语法缩进动作
+    SNTX_SP,		// 空格
+    SNTX_LF_HT,		// 换行并缩进，每一个声明、函数定义、语句结束都要置为此状态
+    SNTX_DELAY      // 延迟输出
 };
 
 /* 存储类型 */
 enum e_StorageClass
 {
-	SC_GLOBAL = 0x00f0,		// 包括：包括整型常量，字符常量、字符串常量,全局变量,函数定义          
-	SC_LOCAL = 0x00f1,		// 栈中变量
-	SC_LLOCAL = 0x00f2,       // 寄存器溢出存放栈中
-	SC_CMP = 0x00f3,       // 使用标志寄存器
-	SC_VALMASK = 0x00ff,       // 存储类型掩码             
-	SC_LVAL = 0x0100,       // 左值       
-	SC_SYM = 0x0200,       // 符号	
+    SC_GLOBAL = 0x00f0,		// 包括：包括整型常量，字符常量、字符串常量,全局变量,函数定义          
+    SC_LOCAL = 0x00f1,		// 栈中变量
+    SC_LLOCAL = 0x00f2,       // 寄存器溢出存放栈中
+    SC_CMP = 0x00f3,       // 使用标志寄存器
+    SC_VALMASK = 0x00ff,       // 存储类型掩             
+    SC_LVAL = 0x0100,       // 左值       
+    SC_SYM = 0x0200,       // 符号	
 
-	SC_ANOM = 0x10000000,     // 匿名符号
-	SC_STRUCT = 0x20000000,     // 结构体符号
-	SC_MEMBER = 0x40000000,     // 结构成员变量
-	SC_PARAMS = 0x80000000,     // 函数参数
+    SC_ANOM = 0x10000000,     // 匿名符号
+    SC_STRUCT = 0x20000000,     // 结构体符号
+    SC_MEMBER = 0x40000000,     // 结构成员变量
+    SC_PARAMS = 0x80000000,     // 函数参数
 };
 
 /* 类型编码 */
 enum e_TypeCode
 {
-	T_INT = 0,			// 整型                     
-	T_CHAR = 1,			// 字符型                 
-	T_SHORT = 2,			// 短整型                       
-	T_VOID = 3,			// 空类型                        
-	T_PTR = 4,			// 指针                          
-	T_FUNC = 5,			// 函数                    
-	T_STRUCT = 6,			// 结构体 
+    /* types */
+    T_INT = 0,			// 整型                     
+    T_CHAR = 1,			// 字符型                 
+    T_SHORT = 2,			// 短整型                       
+    T_VOID = 3,			// 空类型                        
+    T_PTR = 4,			// 指针                          
+    T_FUNC = 5,			// 函数                    
+    T_STRUCT = 6,			// 结构体 
 
-	T_BTYPE = 0x000f,		// 基本类型掩码          
-	T_ARRAY = 0x0010,		// 数组
+    T_BTYPE = 0x000f,		// 基本类型掩码          
+    T_ARRAY = 0x0010,		// 数组
 };
 
 #define ALIGN_SET 0x100  // 强制对齐标志
@@ -254,28 +255,28 @@ extern int syntax_level;
 
 void translation_unit();
 void external_declaration(int l);
-int type_specifier();
-void init_declarator_list(int l);
-void initializer();
-void struct_specifier();
-void struct_declaration_list();
-void struct_declaration();
-void declarator();
-void function_calling_convention();
-void struct_member_alignment();
-void direct_declarator();
-void direct_declarator_postfix();
-void parameter_type_list();
-void funcbody();
-void statement();
-void compound_statement();
+int type_specifier(Type *type);
+void init_declarator_list(int l, Type *btype);
+void initializer(Type *type, int c, struct Section *sec);
+void struct_specifier(Type *type);
+void struct_declaration_list(Type *type);
+void struct_declaration(int *maxalign, int *offset, Symbol ***ps);
+void declarator(Type *type, int *v, int *force_align);
+void function_calling_convention(int *fc);
+void struct_member_alignment(int *force_align);
+void direct_declarator(Type *type, int *v, int func_call);
+void direct_declarator_postfix(Type *type, int func_call);
+void parameter_type_list(Type *type, int func_call);
+void funcbody(Symbol *sym);
+void statement(int *bsym, int *csym);
+void compound_statement(int *bsym, int *csym);
 int is_type_specifier(int v);
-void statement();
+void statement(int *bsym, int *csym);
 void expression_statement();
-void for_statement();
-void break_statement();
-void continue_statement();
-void if_statement();
+void for_statement(int *bsym, int *csym);
+void break_statement(int *bsym);
+void continue_statement(int *csym);
+void if_statement(int *bsym, int *csym);
 void return_statement();
 void assignment_expression();
 void expression();
@@ -291,8 +292,18 @@ void sizeof_expression();
 void syntax_indent();
 /*******************************grammar.h end****************************/
 
+
 /*******************************scc.h begin****************************/
+/* 输出类型 */
+enum e_OutType
+{
+    OUTPUT_OBJ,		// 目标文件
+    OUTPUT_EXE,		// EXE可执行文件
+    OUTPUT_MEMORY	// 内存中直接运行，不输出
+};
+
 extern DynString tkstr;
+extern DynArray sections;
 extern FILE *fin;
 extern char ch;
 extern char *filename;
@@ -301,6 +312,7 @@ extern int tkvalue;
 extern int line_num;
 int elf_hash(char *name);
 void *mallocz(int size);
+int calc_align(int n, int align);
 /******************************scc.h end*************************/
 
 /*******************************outcoff.h begin****************************/
@@ -408,3 +420,79 @@ int coffsym_add(Section *symtab, char* name, int val, int sec_index,
 int coffsym_search(Section *symtab, char *name);
 void write_obj(char *name);
 /*******************************outcoff.h end****************************/
+
+/*******************************oprand.h begin****************************/
+/* 操作数存储结构，存放在语义栈中 */
+typedef struct Operand
+{
+    Type type;			    // 数据类型
+    unsigned short r;       // 寄存器或存储类型
+    int value;              // 常量值，适用于SC_GLOBAL
+    struct Symbol *sym;     // 符号，适用于(SC_SYM | SC_GLOBAL)
+} Operand;
+
+void operand_push(Type *type, int r, int value);
+void operand_pop();
+void operand_swap();
+void operand_assign(Operand *opd, int t, int r, int v);
+void cancel_lvalue();
+void indirection();
+/*******************************oprand.h end****************************/
+
+/***********************gencodes.h begin*********************/
+/* 寄存器编码 */
+enum e_Register
+{
+    REG_EAX = 0,
+    REG_ECX,
+    REG_EDX,
+    REG_EBX,
+    REG_ESP,
+    REG_EBP,
+    REG_ESI,
+    REG_EDI,
+    REG_ANY
+};
+#define REG_IRET  REG_EAX	// 存放函数返回值的寄存器
+
+/* 寻址方式 */
+enum e_AddrForm
+{
+    ADDR_OTHER,				// 寄存器间接寻址 [EAX],[EBX]
+    ADDR_REG = 3			// 寄存器直接寻址，EAX,EBX等相当于mod=11000000(C0)
+};
+
+#define OPSTACK_SIZE 256
+extern Operand opstack[OPSTACK_SIZE], *optop;
+#define FUNC_PROLOG_SIZE 9
+extern int rsym, ind, loc;
+extern int func_begin_ind;
+extern int func_ret_sub;
+
+void gen_byte(char c);
+void gen_opcode1(char opcode);
+void gen_opcode2(char first, char second);
+void gen_long(unsigned int c);
+void backpatch(int t, int a);
+void gen_addr32(int r, Symbol *sym, int c);
+void gen_modrm(int mod, int reg_opcode, int r_m, Symbol *sym, int c);
+
+void spill_reg(int r);
+void spill_regs();
+int gen_jmpforward(int t);
+void gen_jmpbackword(int a);
+
+void gen_prefix(char opcode);
+int allocate_reg(int rc);
+void gen_invoke(int nb_args);
+void gen_op(int op);
+int load_1(int rc, Operand *opd);
+void store0_1();
+int gen_jcc(int t);
+void gen_prolog(Type *func_type);
+void gen_epilog();
+Type *pointed_type(Type *t);
+void init_variable(Type *type, Section *sec, int c, int v);
+Section * allocate_storage(Type *type, int r, int has_init, int v, int *addr);
+/***********************gencodes.h end*********************/
+

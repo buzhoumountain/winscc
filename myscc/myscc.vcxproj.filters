@@ -45,6 +45,12 @@
     <ClCompile Include="outcoff.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="gencode.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="operand.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scc.h">

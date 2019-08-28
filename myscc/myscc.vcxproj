@@ -22,9 +22,11 @@
     <ClCompile Include="dynarray.c" />
     <ClCompile Include="dynstring.c" />
     <ClCompile Include="error.c" />
+    <ClCompile Include="gencode.c" />
     <ClCompile Include="grammar.c" />
     <ClCompile Include="grammar_test.c" />
     <ClCompile Include="lex.c" />
+    <ClCompile Include="operand.c" />
     <ClCompile Include="outcoff.c" />
     <ClCompile Include="scc.c" />
     <ClCompile Include="stack.c" />
