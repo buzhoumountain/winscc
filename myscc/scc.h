@@ -418,7 +418,6 @@ void coffreloc_direct_add(int offset, int cfsym, char section, char type);
 int coffsym_add(Section *symtab, char* name, int val, int sec_index,
     short type, char StorageClass);
 int coffsym_search(Section *symtab, char *name);
-void write_obj(char *name);
 /*******************************outcoff.h end****************************/
 
 /*******************************oprand.h begin****************************/
@@ -496,3 +495,50 @@ void init_variable(Type *type, Section *sec, int c, int v);
 Section * allocate_storage(Type *type, int r, int has_init, int v, int *addr);
 /***********************gencodes.h end*********************/
 
+/*******************************outpe.h begin****************************/
+/* 导入符号内存存储结构 */
+struct ImportSym
+{
+    int iat_index;
+    int thk_offset;
+    IMAGE_IMPORT_BY_NAME imp_sym;
+};
+
+/* 导入模块内存存储结构 */
+struct ImportInfo
+{
+    int dll_index;
+    DynArray imp_syms;
+    IMAGE_IMPORT_DESCRIPTOR imphdr;
+};
+
+/* PE信息存储结构 */
+struct PEInfo
+{
+    Section *thunk;
+    const char *filename;
+    DWORD entry_addr;
+    DWORD imp_offs;
+    DWORD imp_size;
+    DWORD iat_offs;
+    DWORD iat_size;
+    Section **secs;
+    int   sec_size;
+    DynArray imps;
+};
+
+extern DynArray array_dll;
+extern DynArray array_lib;
+extern char *lib_path;
+extern short subsystem;
+int pe_output_file(char *filename);
+int inproc_run(int argc, char **argv);
+void write_obj(char *name);
+int load_obj_file(char *fname);
+void relocate_syms();
+extern char *entry_symbol;
+int pe_find_import(char *symbol);
+void add_runtime_libs();
+void coffrelocs_fixup();
+char *get_lib_path();
+/*******************************outpe.h end****************************/

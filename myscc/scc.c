@@ -5,7 +5,7 @@
 FILE *fin = NULL;				// 源文件指针
 char *filename;					// 源文件名称
 DynArray src_files;				// 源文件数组
-char outfile[256];				// 输出文件名
+char *outfile;					// 输出文件名
 int output_type;				// 输出文件类型
 float scc_version = 1.00;		// SCC编译器版本号
 
@@ -59,6 +59,8 @@ int calc_align(int n, int align)
 void init()
 {
     dynarray_init(&src_files, 1);
+    dynarray_init(&array_lib, 4);
+    dynarray_init(&array_dll, 4);
     init_lex();
 
     syntax_state = SNTX_NUL;
@@ -78,6 +80,7 @@ void init()
 
     init_coff();
 
+    lib_path = get_lib_path();
 }
 
 /***********************************************************
@@ -97,33 +100,78 @@ void cleanup()
 
     }
     free(tktable.data);
+    dynarray_free(&array_dll);
+    free(src_files.data);
+    free(array_lib.data);
 }
 
+/***********************************************************
+ * 功能:	处理命令行选项
+ * argc:	命令行参数个数
+ * argv:	命令行参数数组
+ **********************************************************/
+int process_command(int argc, char **argv)
+{
+    int i;
+    for (i = 1; i < argc; i++)
+    {
+        if (argv[i][0] == '-')
+        {
+            char *p = &argv[i][1];
+            int c = *p;
+            switch (c)
+            {
+            case 'o':
+                outfile = argv[++i];
+                break;
+            case 'c':
+                dynarray_add(&src_files, argv[++i]);
+                output_type = OUTPUT_OBJ;
+                return 1;
+            case 'l':
+                dynarray_add(&array_lib, &argv[i][2]);
+                break;
+            case 'G':
+                subsystem = IMAGE_SUBSYSTEM_WINDOWS_GUI;
+                break;
+            case 'v':
+                printf("SCC Version %.2f", scc_version);
+                return 0;
+            case 'h':
+                printf("usage: scc [-c infile] [-o outfile] [-llib] [infile1 infile2...] \n");
+                return 0;
+            default:
+                printf("unsupported command line option");
+                return 0;
+            }
+        }
+        else
+        {
+            dynarray_add(&src_files, argv[i]);
+        }
+
+    }
+    return 1;
+
+}
 
 /***********************************************************
  * 功能:	得到文件扩展名
  * fname:	文件名称
  **********************************************************/
-void get_obj_fname(char *fname)
+char *get_file_ext(char *fname)
 {
     char *p;
-    int i;
     p = strrchr(fname, '.');
-    i = p - fname + 1;
-    strcpy_s(outfile, sizeof(outfile), fname);
-    strcpy_s(outfile + i, sizeof(outfile), "obj");
+    return p + 1;
 }
 
 /***********************************************************
- * 功能:	main主函数
+ * 功能:	编译SC源文件
+ * fname:	SC源文件名
  **********************************************************/
-int main(int argc, char ** argv)
+void compile(char *fname)
 {
-    char *fname;
-
-    init();
-    fname = argv[1];
-    fin = NULL;
     fopen_s(&fin, fname, "rb");
     if (!fin)
         printf("cannot open SC source file");
@@ -132,11 +180,35 @@ int main(int argc, char ** argv)
     get_token();
     translation_unit();
     fclose(fin);
-
-    get_obj_fname(fname);
-    write_obj(outfile);
-
     printf("\n\n%s 代码行数: %d行\n\n", fname, line_num);
+}
+
+/***********************************************************
+ * 功能:	main主函数
+ **********************************************************/
+void main(int argc, char ** argv)
+{
+    int i, opind;
+    char *ext;
+    init();
+    output_type = OUTPUT_EXE;
+    subsystem = IMAGE_SUBSYSTEM_WINDOWS_CUI;
+    opind = process_command(argc, argv);
+    if (opind == 0)
+        return;
+    for (i = 0; i < src_files.count; i++)
+    {
+        filename = src_files.data[i];
+        ext = get_file_ext(filename);
+        if (!strcmp(ext, "c"))
+            compile(filename);
+        if (!strcmp(ext, "obj"))
+            load_obj_file(filename);
+    }
+    if (output_type == OUTPUT_OBJ)
+        write_obj(outfile);
+    else
+        pe_output_file(outfile);
+
     cleanup();
-    return 1;
 }

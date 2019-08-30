@@ -28,6 +28,7 @@
     <ClCompile Include="lex.c" />
     <ClCompile Include="operand.c" />
     <ClCompile Include="outcoff.c" />
+    <ClCompile Include="outpe.c" />
     <ClCompile Include="scc.c" />
     <ClCompile Include="stack.c" />
     <ClCompile Include="symbol.c" />
